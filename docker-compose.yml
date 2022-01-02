@@ -1,0 +1,79 @@
+version: "3"
+
+services:
+  proxy:
+    image: traefik:latest
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - certs:/letsencrypt
+    command:
+      # - "--log.level=DEBUG"
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --accesslog
+      - --log
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
+      # - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.myresolver.acme.email=info@rssi.in"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+    restart: always
+  web:
+    image: ghcr.io/rssiweb/website:dockerize
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.web.rule=Host(`${WEB_DOMAIN}`)
+      - traefik.http.routers.web.tls.certresolver=myresolver
+    environment:
+      SALT: ${WEB_SALT}
+      SECURE_CODE: ${WEB_SECURE_CODE}
+      SECURE_CODE1: ${WEB_SECURE_CODE1}
+      SECURE_CODE2: ${WEB_SECURE_CODE2}
+    depends_on:
+      - db
+
+  portal:
+    image: ghcr.io/rssiweb/portal:dockerize
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.portal.rule=Host(`${PORTAL_DOMAIN}`)
+      - traefik.http.routers.portal.tls.certresolver=myresolver
+    environment:
+      DB_HOST: db
+      DB_NAME: ${PORTAL_DB_NAME}
+      DB_USER: ${PORTAL_DB_USER}
+      DB_PASSWORD: ${PORTAL_DB_PASSWORD}
+      
+    depends_on:
+      - db
+
+  gsheet2db:
+    image: ghcr.io/rssiweb/gsheet2db:dockerize
+    environment:
+      CREDENTIALS_SERVICE_ACCOUNT: ${GSHEET2DB_CREDENTIALS_SERVICE_ACCOUNT}
+      DATABASE_URL: ${GSHEET2DB_DATABASE_URL}
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.db.rule=Host(`${POSTGRES_DOMAIN}`)
+      - traefik.http.routers.db.tls.certresolver=myresolver
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    restart: always
+
+volumes:
+  pg_data:
+  certs:
