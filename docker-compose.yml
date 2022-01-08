@@ -65,6 +65,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.db.rule=Host(`${POSTGRES_DOMAIN}`)
+      - traefik.port=5432
       - traefik.http.routers.db.tls.certresolver=myresolver
     volumes:
       - pg_data:/var/lib/postgresql/data
