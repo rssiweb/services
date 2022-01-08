@@ -16,6 +16,7 @@ services:
       - --accesslog
       - --log
       - --entrypoints.web.address=:80
+      - --entrypoints.db.address=:5432
       - --entrypoints.websecure.address=:443
       - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
       - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
@@ -64,8 +65,9 @@ services:
     image: postgres:13
     labels:
       - traefik.enable=true
+      - traefik.tcp.routers.db.entrypoints=db
       - traefik.http.routers.db.rule=Host(`${POSTGRES_DOMAIN}`)
-      - traefik.tcp.routers.postgres.tls=false
+      - traefik.tcp.routers.postgres.tls=true
       - traefik.http.routers.db.tls.certresolver=myresolver
     volumes:
       - pg_data:/var/lib/postgresql/data
