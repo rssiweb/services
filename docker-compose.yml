@@ -35,9 +35,12 @@ services:
       - traefik.http.routers.web.tls.certresolver=myresolver
     environment:
       SALT: ${WEB_SALT}
-      SECURE_CODE: ${WEB_SECURE_CODE}
-      SECURE1_CODE: ${WEB_SECURE1_CODE}
-      SECURE2_CODE: ${WEB_SECURE2_CODE}
+      SECURE_USER: ${WEB_SECURE_USER}
+      SECURE1_USER: ${WEB_SECURE1_USER}
+      SECURE2_USER: ${WEB_SECURE2_USER}
+      RAINBOW_CODE: ${WEB_RAINBOW_CODE}
+      INDIGO21_CODE: ${WEB_INDIGO21_CODE}
+      INDIGO_CODE: ${WEB_INDIGO_CODE}
     depends_on:
       - db
 
