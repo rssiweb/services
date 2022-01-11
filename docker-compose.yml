@@ -36,8 +36,8 @@ services:
     environment:
       SALT: ${WEB_SALT}
       SECURE_CODE: ${WEB_SECURE_CODE}
-      SECURE_CODE1: ${WEB_SECURE_CODE1}
-      SECURE_CODE2: ${WEB_SECURE_CODE2}
+      SECURE1_CODE: ${WEB_SECURE1_CODE}
+      SECURE2_CODE: ${WEB_SECURE2_CODE}
     depends_on:
       - db
 
