@@ -28,7 +28,7 @@ services:
       - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
     restart: always
   web:
-    image: ghcr.io/rssiweb/website:dockerize
+    image: ghcr.io/rssiweb/website:latest
     labels:
       - traefik.enable=${TRAEFIK_ENABLE:-true}
       - traefik.http.routers.web.rule=Host(`${WEB_DOMAIN}`)
@@ -45,7 +45,7 @@ services:
       - db
 
   portal:
-    image: ghcr.io/rssiweb/portal:dockerize
+    image: ghcr.io/rssiweb/portal:latest
     labels:
       - traefik.enable=${TRAEFIK_ENABLE:-true}
       - traefik.http.routers.portal.rule=Host(`${PORTAL_DOMAIN}`)
@@ -59,7 +59,7 @@ services:
       - db
 
   gsheet2db:
-    image: ghcr.io/rssiweb/gsheet2db:dockerize
+    image: ghcr.io/rssiweb/gsheet2db:latest
     environment:
       CREDENTIALS_SERVICE_ACCOUNT: ${GSHEET2DB_CREDENTIALS_SERVICE_ACCOUNT}
       DATABASE_URL: ${GSHEET2DB_DATABASE_URL}
