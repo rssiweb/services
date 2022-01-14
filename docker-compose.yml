@@ -41,6 +41,9 @@ services:
       RAINBOW_CODE: ${WEB_RAINBOW_CODE}
       INDIGO21_CODE: ${WEB_INDIGO21_CODE}
       INDIGO_CODE: ${WEB_INDIGO_CODE}
+      TEMPLATES_AUTO_RELOAD: ${WEB_TEMPLATES_AUTO_RELOAD:-False}
+      AUTO_REFRESH: ${WEB_AUTO_REFRESH:-False}
+      FLASK_ENV: ${WEB_FLASK_ENV:-production}
     depends_on:
       - db
 
