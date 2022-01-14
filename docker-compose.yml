@@ -32,6 +32,7 @@ services:
       - "traefik.http.routers.trimwww.rule=HostRegexp(`{host:(www\\.).+}`)"
       - "traefik.http.routers.trimwww.entrypoints=web"
       - "traefik.http.routers.trimwww.tls=true"
+      - "traefik.http.routers.trimwww.tls.certresolver=myresolver"
       - "traefik.http.routers.trimwww.middlewares=trimwww"
       # middleware=http(s)://(www.) to  https://
       - traefik.http.middlewares.trimwww.redirectregex.regex=^https?://www.(.*)
