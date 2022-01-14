@@ -34,7 +34,7 @@ services:
       - "traefik.http.routers.trimwww.middlewares=trimwww"
       # middleware=http(s)://(www.) to  https://
       - traefik.http.middlewares.trimwww.redirectregex.regex=^https?://www.(.*)
-      - traefik.http.middlewares.trimwww.redirectregex.replacement=http://$${1}
+      - traefik.http.middlewares.trimwww.redirectregex.replacement=https://$${1}
       - traefik.http.middlewares.trimwww.redirectregex.permanent=true
     restart: always
   web:
