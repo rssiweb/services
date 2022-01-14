@@ -26,6 +26,16 @@ services:
       - --certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web
       - --certificatesresolvers.myresolver.acme.email=info@rssi.in
       - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
+    labels:
+      - traefik.enable=true
+      # Global redirection: https (www.) to https
+      - "traefik.http.routers.trimwww.rule=HostRegexp(`{host:(www\\.).+}`)"
+      - "traefik.http.routers.trimwww.entrypoints=web"
+      - "traefik.http.routers.trimwww.middlewares=trimwww"
+      # middleware=http(s)://(www.) to  https://
+      - traefik.http.middlewares.trimwww.redirectregex.regex=^https?://www.(.*)
+      - traefik.http.middlewares.trimwww.redirectregex.replacement=http://$${1}
+      - traefik.http.middlewares.trimwww.redirectregex.permanent=true
     restart: always
   web:
     image: ghcr.io/rssiweb/website:latest

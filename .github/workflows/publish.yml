@@ -4,7 +4,7 @@ on:
     branches: [ master ]
   workflow_dispatch:
   repository_dispatch:
-    types: [trigger_deploy]
+    types: [deploy]
 env:
   LETSENCRYPT_EMAIL: ${{ secrets.LETSENCRYPT_EMAIL }}
   WEB_DOMAIN: ${{ secrets.WEB_DOMAIN }}
