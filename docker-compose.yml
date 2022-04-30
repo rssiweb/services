@@ -63,7 +63,7 @@ services:
     image: ghcr.io/rssiweb/portal:latest
     labels:
       - traefik.enable=${TRAEFIK_ENABLE:-true}
-      - traefik.http.routers.portal.rule=Host(`${PORTAL_DOMAIN}`) || Host(`www.${PORTAL_DOMAIN}`)
+      - traefik.http.routers.portal.rule=Host(`${PORTAL_DOMAIN}`)
       - traefik.http.routers.portal.tls.certresolver=le
     environment:
       DB_HOST: db
@@ -95,6 +95,8 @@ services:
 
   portainer:
     image: portainer/portainer-ce:2.11.1
+    ports:
+      - 9443:9443
     labels:
       - traefik.enable=${TRAEFIK_ENABLE:-true}
       - traefik.http.routers.portainer.rule=Host(`${PORTAINER_DOMAIN}`)
