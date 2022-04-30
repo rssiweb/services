@@ -1,7 +1,7 @@
 name: Deploy On Production
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   workflow_dispatch:
   repository_dispatch:
     types: [deploy]
@@ -28,17 +28,18 @@ env:
   WEB_RAINBOW_CODE: ${{ secrets.WEB_RAINBOW_CODE }}
   WEB_INDIGO21_CODE: ${{ secrets.WEB_INDIGO21_CODE }}
   WEB_INDIGO_CODE: ${{ secrets.WEB_INDIGO_CODE }}
+  PORTAINER_DOMAIN: ${{ secret.PORTAINER_DOMAIN }}
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Start Deployment
-      uses: TapTap21/docker-remote-deployment-action@v1.0
-      with:
-        remote_docker_host: ${{ secrets.SERVER }} 
-        ssh_private_key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
-        ssh_public_key: ${{ secrets.SERVER_SSH_PUBLIC_KEY }}
-        stack_file_name: docker-compose.yml
-        args: -p rssi up -d
+      - uses: actions/checkout@v2
+      - name: Start Deployment
+        uses: TapTap21/docker-remote-deployment-action@v1.0
+        with:
+          remote_docker_host: ${{ secrets.SERVER }}
+          ssh_private_key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
+          ssh_public_key: ${{ secrets.SERVER_SSH_PUBLIC_KEY }}
+          stack_file_name: docker-compose.yml
+          args: -p rssi up -d
