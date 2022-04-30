@@ -97,7 +97,7 @@ services:
     image: portainer/portainer-ce:2.11.1
     labels:
       - traefik.enable=${TRAEFIK_ENABLE:-true}
-      - traefik.http.routers.portainer.rule=Host(`${PORTAINER_DOMAIN}`) || Host(`www.${PORTAINER_DOMAIN}`)
+      - traefik.http.routers.portainer.rule=Host(`${PORTAINER_DOMAIN}`)
       - traefik.http.routers.portainer.tls.certresolver=le
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
