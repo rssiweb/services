@@ -40,7 +40,7 @@ jobs:
       - name: ssh to server and create secrets
         uses: appleboy/ssh-action@v0.1.6
         with:
-          host: ${{ secrets.SERVER }}
+          host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
           script: whoami
