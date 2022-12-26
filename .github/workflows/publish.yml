@@ -48,7 +48,7 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
-          fingerprint: 256 MD5:22:d9:99:a2:81:e5:e6:6f:d6:78:00:70:3f:27:05:81 zeeshan@buraq (ED25519)
+          fingerprint: MD5:3c:c3:6f:d6:d9:6f:ca:d0:56:07:9f:4d:69:e3:25:39
           script: |
             whoami
             echo ${{ secrets.DRIVE_STORAGE_CRED }} > google-drive-cred-sa.json &&
