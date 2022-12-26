@@ -37,6 +37,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: test
+        run: |
+          cat ${{ secrets.SERVER_SSH_PUBLIC_KEY }}
+          echo ${{ secrets.SERVER_SSH_PUBLIC_KEY }} > test.pub
+          ssh-keygen -E md5 -lf test.pub
       - name: create secret files
         uses: appleboy/ssh-action@v0.1.6
         with:
