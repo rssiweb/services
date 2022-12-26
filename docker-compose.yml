@@ -75,7 +75,7 @@ services:
     depends_on:
       - db
     secrets:
-      - drive-storage-cred
+      - google-drive-cred-sa
 
   gsheet2db:
     image: ghcr.io/rssiweb/gsheet2db:latest
@@ -111,8 +111,8 @@ services:
     restart: always
 
 secrets:
-  drive-storage-cred:
-    file: drive-storage-cred.json
+  google-drive-cred-sa:
+    file: google-drive-cred-sa.json
 
 volumes:
   pg_data:
