@@ -74,6 +74,8 @@ services:
       GMAIL_PASSWORD: ${PORTAL_GMAIL_PASSWORD}
     depends_on:
       - db
+    secrets:
+      - drive-storage-cred
 
   gsheet2db:
     image: ghcr.io/rssiweb/gsheet2db:latest
@@ -107,6 +109,10 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
     restart: always
+
+secrets:
+  drive-storage-cred:
+    file: drive-storage-cred.json
 
 volumes:
   pg_data:
