@@ -39,25 +39,13 @@ services:
       - traefik.http.middlewares.trimwww.redirectregex.replacement=https://$${1}
       - traefik.http.middlewares.trimwww.redirectregex.permanent=true
     restart: always
+  
   web:
     image: ghcr.io/rssiweb/website:latest
     labels:
       - traefik.enable=${TRAEFIK_ENABLE:-true}
       - traefik.http.routers.web.rule=Host(`${WEB_DOMAIN}`) || Host(`www.${WEB_DOMAIN}`)
       - traefik.http.routers.web.tls.certresolver=le
-    environment:
-      SALT: ${WEB_SALT}
-      SECURE_USER: ${WEB_SECURE_USER}
-      SECURE1_USER: ${WEB_SECURE1_USER}
-      SECURE2_USER: ${WEB_SECURE2_USER}
-      RAINBOW_CODE: ${WEB_RAINBOW_CODE}
-      INDIGO21_CODE: ${WEB_INDIGO21_CODE}
-      INDIGO_CODE: ${WEB_INDIGO_CODE}
-      TEMPLATES_AUTO_RELOAD: ${WEB_TEMPLATES_AUTO_RELOAD:-False}
-      AUTO_REFRESH: ${WEB_AUTO_REFRESH:-False}
-      FLASK_ENV: ${WEB_FLASK_ENV:-production}
-    depends_on:
-      - db
 
   portal:
     image: ghcr.io/rssiweb/portal:latest
