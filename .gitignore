@@ -1,5 +1,5 @@
 .env
 .credentials
 .env.prod
-docker-compose.override.yaml
+docker-compose.override.yml
 tmp/
