@@ -24,6 +24,7 @@ env:
   POSTGRES_DOMAIN: ${{ secrets.POSTGRES_DOMAIN }}
   PORTAINER_DOMAIN: ${{ secrets.PORTAINER_DOMAIN }}
   MQTT_DOMAIN: ${{ secrets.MQTT_DOMAIN }}
+  MQTT_CONFIG_FILE: ~/mosquitto.conf
 
 jobs:
   deploy:
