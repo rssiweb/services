@@ -100,7 +100,7 @@ services:
   mqtt:
     image: eclipse-mosquitto
     volumes:
-      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ${MQTT_CONFIG_FILE:-./mosquitto.conf}:/mosquitto/config/mosquitto.conf
       - mqtt_data:/mosquitto/data
     labels:
       - traefik.enable=true
