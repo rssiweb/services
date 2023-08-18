@@ -97,7 +97,22 @@ services:
       - portainer_data:/data
     restart: always
 
+  mqtt:
+    image: eclipse-mosquitto
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - mqtt_data:/mosquitto/data
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.mqtt.rule=Host(`${MQTT_DOMAIN}`)
+      - traefik.http.routers.mqtt.entrypoints=websecure
+      - traefik.http.routers.mqtt.tls.certresolver=le
+      - traefik.http.routers.mqtt.tls=true
+      - traefik.http.services.mqtt.loadbalancer.server.port=9001
+      
+
 volumes:
   pg_data:
   certs:
   portainer_data:
+  mqtt_data:
