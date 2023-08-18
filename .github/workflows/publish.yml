@@ -23,6 +23,7 @@ env:
   POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
   POSTGRES_DOMAIN: ${{ secrets.POSTGRES_DOMAIN }}
   PORTAINER_DOMAIN: ${{ secrets.PORTAINER_DOMAIN }}
+  MQTT_DOMAIN: ${{ secrets.MQTT_DOMAIN }}
 
 jobs:
   deploy:
