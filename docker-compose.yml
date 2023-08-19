@@ -1,58 +1,16 @@
 version: "3.3"
 
 services:
-  proxy:
-    image: traefik:latest
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - certs:/letsencrypt
-    command:
-      - --log.level=${TRAEFIK_LOG_LEVEL:-ERROR}
-      - --providers.docker=true
-      - --providers.docker.exposedbydefault=false
-      - --accesslog
-      - --log
-      - --entrypoints.websecure.address=:443
-      - --entrypoints.web.address=:80
-      # redirect http to https
-      - --entrypoints.web.http.redirections.entryPoint.to=websecure
-      - --entrypoints.web.http.redirections.entryPoint.scheme=https
-      - --entrypoints.web.http.redirections.entrypoint.permanent=true
-      # let's encrypt certificates
-      - --certificatesresolvers.le.acme.httpchallenge=true
-      - --certificatesresolvers.le.acme.httpchallenge.entrypoint=web
-      - --certificatesresolvers.le.acme.email=info@rssi.in
-      - --certificatesresolvers.le.acme.storage=/letsencrypt/acme.json
-    labels:
-      - traefik.enable=true
-      # Global redirection: https (www.) to https
-      - "traefik.http.routers.trimwww.rule=HostRegexp(`{host:(www\\.).+}`)"
-      - "traefik.http.routers.trimwww.entrypoints=websecure"
-      - "traefik.http.routers.trimwww.tls=true"
-      - "traefik.http.routers.trimwww.tls.certresolver=le"
-      - "traefik.http.routers.trimwww.middlewares=trimwww"
-      # middleware=http(s)://(www.) to  https://
-      - traefik.http.middlewares.trimwww.redirectregex.regex=^https?://www.(.*)
-      - traefik.http.middlewares.trimwww.redirectregex.replacement=https://$${1}
-      - traefik.http.middlewares.trimwww.redirectregex.permanent=true
-    restart: always
-  
+
   web:
     image: ghcr.io/rssiweb/website:latest
-    labels:
-      - traefik.enable=${TRAEFIK_ENABLE:-true}
-      - traefik.http.routers.web.rule=Host(`${WEB_DOMAIN}`) || Host(`www.${WEB_DOMAIN}`)
-      - traefik.http.routers.web.tls.certresolver=le
+    ports:
+      - 8081:80
 
   portal:
     image: ghcr.io/rssiweb/portal:latest
-    labels:
-      - traefik.enable=${TRAEFIK_ENABLE:-true}
-      - traefik.http.routers.portal.rule=Host(`${PORTAL_DOMAIN}`)
-      - traefik.http.routers.portal.tls.certresolver=le
+    ports:
+      - 8082:80
     environment:
       DB_HOST: db
       DB_NAME: ${PORTAL_DB_NAME}
@@ -86,12 +44,8 @@ services:
 
   portainer:
     image: portainer/portainer-ce:2.17.1
-    labels:
-      - traefik.enable=${TRAEFIK_ENABLE:-true}
-      - traefik.http.routers.portainer.rule=Host(`${PORTAINER_DOMAIN}`)
-      - traefik.http.routers.portainer.entrypoints=websecure
-      - traefik.http.routers.portainer.tls.certresolver=le
-      - traefik.http.services.portainer.loadbalancer.server.port=9000
+    ports:
+      - 9000:9000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
@@ -102,14 +56,9 @@ services:
     volumes:
       - ${MQTT_CONFIG_FILE:-./mosquitto.conf}:/mosquitto/config/mosquitto.conf
       - mqtt_data:/mosquitto/data
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.mqtt.rule=Host(`${MQTT_DOMAIN}`)
-      - traefik.http.routers.mqtt.entrypoints=websecure
-      - traefik.http.routers.mqtt.tls.certresolver=le
-      - traefik.http.routers.mqtt.tls=true
-      - traefik.http.services.mqtt.loadbalancer.server.port=9001
-      
+    ports:
+      - 1883:1883
+      - 9001:9001
 
 volumes:
   pg_data:
