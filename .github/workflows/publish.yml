@@ -38,4 +38,4 @@ jobs:
           ssh_private_key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
           ssh_public_key: ${{ secrets.SERVER_SSH_PUBLIC_KEY }}
           stack_file_name: docker-compose.yml
-          args: -p rssi up -d
+          args: -p rssi up -d --remove-orphans
