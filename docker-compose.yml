@@ -12,6 +12,8 @@ services:
     image: ghcr.io/rssiweb/portal:latest
     ports:
       - 8082:80
+    volumes:
+      - /home/worker/files:/files
     environment:
       DB_HOST: db
       DB_NAME: ${PORTAL_DB_NAME}
