@@ -25,6 +25,7 @@ env:
   PORTAINER_DOMAIN: ${{ secrets.PORTAINER_DOMAIN }}
   MQTT_DOMAIN: ${{ secrets.MQTT_DOMAIN }}
   MQTT_CONFIG_FILE: /home/worker/mosquitto.conf
+  GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
 jobs:
   deploy:
