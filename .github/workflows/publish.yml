@@ -26,6 +26,7 @@ env:
   MQTT_DOMAIN: ${{ secrets.MQTT_DOMAIN }}
   MQTT_CONFIG_FILE: /home/worker/mosquitto.conf
   GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+  GOOGLE_LOCATION_API_KEY: ${{ secrets.GOOGLE_LOCATION_API_KEY }}
 
 jobs:
   deploy:

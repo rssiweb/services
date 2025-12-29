@@ -23,6 +23,7 @@ services:
       GMAIL_PASSWORD: ${PORTAL_GMAIL_PASSWORD}
       STORAGE_CRED: ${PORTAL_STORAGE_CRED}
       GEMINI_API_KEY: ${GEMINI_API_KEY}
+      GOOGLE_LOCATION_API_KEY: ${GOOGLE_LOCATION_API_KEY}
     depends_on:
       - db
     restart: unless-stopped
